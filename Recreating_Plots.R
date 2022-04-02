@@ -14,10 +14,13 @@ V_GRF_stance_N <- data.frame(V_GRF_stance_N)
 V_GRF_stance_N$Time <- seq(1, 100, 1)
 
 # Plotting all obs
+library(circlize)
+mycolors <- rand_color(15696)
 plot_V_GRF <- melt(V_GRF_stance_N,  id.vars = 'Time', variable.name = 'V_GRF_stance')
-ggplot(plot_V_GRF, aes(Time, value, group = V_GRF_stance, color = V_GRF_stance)) + geom_line()
-
-
+ggplot(plot_V_GRF, aes(Time, value, group = V_GRF_stance, color = V_GRF_stance)) + 
+  geom_line() +
+  scale_colour_manual(values = mycolors) +
+  theme(legend.position = "none")
 
 
 
