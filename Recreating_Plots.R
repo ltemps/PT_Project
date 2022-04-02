@@ -15,7 +15,9 @@ V_GRF_stance_N$Time <- seq(1, 100, 1)
 
 # Plotting all obs
 plot_V_GRF <- melt(V_GRF_stance_N,  id.vars = 'Time', variable.name = 'V_GRF_stance')
-ggplot(plot_V_GRF, aes(Time, value)) + geom_line()
+ggplot(plot_V_GRF, aes(Time, value, group = V_GRF_stance, color = V_GRF_stance)) + geom_line()
+
+
 
 
 
