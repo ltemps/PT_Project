@@ -22,4 +22,4 @@ table(IDinfo$KNEE, IDinfo$count)
 
 #Avg trial length per trial count
 IDinfo%>%group_by(KNEE, count)%>%summarize(mean(tr_length))
-#I want to make this look like table above but this is good enough for now
+#I want to make this look like table above but this is good enough for now 
