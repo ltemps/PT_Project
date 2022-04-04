@@ -1,5 +1,5 @@
 pacman::p_load(readxl, tidyverse, Rfssa, plotly, fda,
-               cranly, ggplot2, vtable, reshape2, circlize)
+               cranly, ggplot2, vtable, reshape2, circlize, refund)
 
 discrete <- read_excel("Data/discrete.xls")
 IDinfo <- read_excel("Data/IDinfo.xls")
@@ -107,3 +107,42 @@ avg_plot_AP_GRF <- plot_AP_GRF %>%
   summarise(avg_value = mean(value))
 ggplot(avg_plot_AP_GRF, aes(Time, avg_value)) + geom_line()
 
+
+#################FDA
+set.seed(42)
+n_obs <- 15696
+time_span <- 100
+time <- sort(runif(n_obs, 0, time_span))
+Wiener <- cumsum(rnorm(n_obs))/sqrt(n_obs)
+y_obs <- Weiner + rnorm(n_obs, 0, .05)
+
+times_basis <- seq(0, time_span, 1)
+knots <- c(seq(0, time_span, 5)) #location of knots
+n_knots <- length(knots) #number of knots
+n_order <- 4 #order of basis functions: cubic bspline: order= 3+1
+n_basis <- length(knots) + n_order -2;
+basis <- create.bspline.basis(c(min(times_basis), max(times_basis)), n_basis, n_order, knots)
+n_basis
+
+PHI <- eval.basis(time, basis)
+dim(PHI)
+
+matplot(time, PHI, type='l', lwd=1, lty=1, 
+        xlab='time', ylab='basis', cex.lab=1, cex.axis=1)
+for (i in 1:n_knots)
+{
+  abline(v=knots[i], lty=2, lwd=1)
+}
+
+M <- ginv(t(PHI) %*% PHI) %*% t(PHI)
+c_hat <- M %*% Wiener
+
+y_hat <- PHI %*% c_hat
+
+df <- AP_GRF_stance_N %>% mutate(y_hat = y_hat)
+p2 <- df %>% ggplot() + 
+  geom_line(aes(x = time, y = Wiener), col = "grey") +
+  geom_point(aes(x = time, y = y_obs)) +
+  geom_line(aes(x = time, y = y_hat), col = "red")
+p2 + ggtitle("Original curve and least squares estimate") + 
+  xlab("time") + ylab("f(time)")

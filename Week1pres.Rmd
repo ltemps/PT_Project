@@ -1,0 +1,81 @@
+---
+title: "Week 1 Update"
+author: "Rachel Donahue, Andrew Sistisky, Lauren Temple"
+date: "4/4/2022"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+pacman::p_load(readxl, tidyverse, Rfssa, plotly, fda,
+               cranly, ggplot2, vtable)
+
+discrete <- read_excel("Data/discrete.xls")
+IDinfo <- read_excel("Data/IDinfo.xls")
+source(file="EDA_RD.R")
+source(file= "Recreating_Plots.R")
+```
+
+## 
+```{r}
+#Number of trials
+nrow(IDinfo)
+
+#Number of Left and Right
+IDinfo%>%group_by(KNEE)%>%summarize(count=n())
+
+#Number of Participants that have trials
+IDinfo%>%group_by(KNEE)%>%summarize(count=n_distinct(ID))
+```
+
+##
+```{r}
+#To get at the number of Participants that have a weird n of trials
+IDinfo$ID_Knee<-paste(IDinfo$KNEE, IDinfo$ID)
+test<-IDinfo%>%group_by(ID_Knee)%>%summarize(count=n())
+IDinfo<-left_join(IDinfo, test, by="ID_Knee")
+table(IDinfo$KNEE, IDinfo$count)
+
+#Avg trial length per trial count
+IDinfo%>%group_by(KNEE, count)%>%summarize(mean(tr_length))
+#I want to make this look like table above but this is good enough for now 
+```
+
+## V_GRF_stance_N plot
+```{r}
+plot_V_GRF 
+```
+
+## V_GRF_stance_N average plot
+```{r}
+# Plotting avg per time point
+avg_plot_V_GRF
+```
+
+## ML_GRF_stance_N plot
+
+```{r}
+plot_ML_GRF
+```
+
+## ML_GRF_stance_N average plot
+```{r}
+avg_plot_ML_GRF
+```
+
+## AP_GRF_stance_N plot
+```{r}
+plot_AP_GRF
+```
+
+## AP_GRF_stance_N average plot
+```{r}
+avg_plot_AP_GRF
+```
+
+
+## Questions
+
+- Is there an advantage to working with the non-time normalized files?
+- Bullet 2
+- Bullet 3
