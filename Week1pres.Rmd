@@ -17,9 +17,9 @@ source(file= "Recreating_Plots.R")
 ```
 
 ## 
-```{r}
+```{r echo=F}
 #Number of trials
-nrow(IDinfo)
+Kable(nrow(IDinfo))
 
 #Number of Left and Right
 IDinfo%>%group_by(KNEE)%>%summarize(count=n())
@@ -28,54 +28,60 @@ IDinfo%>%group_by(KNEE)%>%summarize(count=n())
 IDinfo%>%group_by(KNEE)%>%summarize(count=n_distinct(ID))
 ```
 
-##
-```{r}
-#To get at the number of Participants that have a weird n of trials
-IDinfo$ID_Knee<-paste(IDinfo$KNEE, IDinfo$ID)
-test<-IDinfo%>%group_by(ID_Knee)%>%summarize(count=n())
-IDinfo<-left_join(IDinfo, test, by="ID_Knee")
-table(IDinfo$KNEE, IDinfo$count)
-
-#Avg trial length per trial count
-IDinfo%>%group_by(KNEE, count)%>%summarize(mean(tr_length))
-#I want to make this look like table above but this is good enough for now 
-```
-
 ## V_GRF_stance_N plot
-```{r}
-plot_V_GRF 
+```{r echo=F}
+ggplot(plot_V_GRF, aes(Time, value, group = V_GRF_stance, color = V_GRF_stance)) + 
+  geom_line() +
+  scale_colour_manual(values = mycolors) +
+  theme(legend.position = "none")
 ```
 
 ## V_GRF_stance_N average plot
 ```{r}
 # Plotting avg per time point
-avg_plot_V_GRF
+plot_V_GRF %>%
+                      group_by(Time) %>%
+                      summarise(avg_value = mean(value))
+ggplot(avg_plot_V_GRF, aes(Time, avg_value)) + geom_line()
 ```
 
 ## ML_GRF_stance_N plot
 
 ```{r}
-plot_ML_GRF
+melt(ML_GRF_stance_N,  id.vars = 'Time', variable.name = 'ML_GRF_stance')
+ggplot(plot_ML_GRF, aes(Time, value, group = ML_GRF_stance, color = ML_GRF_stance)) + 
+  geom_line() +
+  scale_colour_manual(values = mycolors) +
+  theme(legend.position = "none")
 ```
 
 ## ML_GRF_stance_N average plot
 ```{r}
-avg_plot_ML_GRF
+plot_ML_GRF %>%
+  group_by(Time) %>%
+  summarise(avg_value = mean(value))
+ggplot(avg_plot_ML_GRF, aes(Time, avg_value)) + geom_line()
 ```
 
 ## AP_GRF_stance_N plot
 ```{r}
-plot_AP_GRF
+melt(AP_GRF_stance_N,  id.vars = 'Time', variable.name = 'AP_GRF_stance')
+ggplot(plot_AP_GRF, aes(Time, value, group = AP_GRF_stance, color = AP_GRF_stance)) + 
+  geom_line() +
+  scale_colour_manual(values = mycolors) +
+  theme(legend.position = "none")
 ```
 
 ## AP_GRF_stance_N average plot
 ```{r}
-avg_plot_AP_GRF
+plot_AP_GRF %>%
+  group_by(Time) %>%
+  summarise(avg_value = mean(value))
+ggplot(avg_plot_AP_GRF, aes(Time, avg_value)) + geom_line()
 ```
 
 
 ## Questions
 
 - Is there an advantage to working with the non-time normalized files?
-- Bullet 2
-- Bullet 3
+- Better ways to determine the outcome measures?
