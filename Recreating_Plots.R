@@ -4,7 +4,7 @@ library(tidyverse)
 library(circlize)
 
 ## V ##
-V_GRF_stance_N <- read.csv("V_GRF_stance_N.csv", header = FALSE)
+V_GRF_stance_N <- read.csv("Data/V_GRF_stance_N.csv", header = FALSE)
 
 # Transpose data & Add time %
 V_GRF_stance_N <- t(V_GRF_stance_N)
@@ -31,7 +31,7 @@ ggplot(avg_plot_V_GRF, aes(Time, avg_value)) + geom_line()
 
 ## ML ##
 
-ML_GRF_stance_N <- read.csv("ML_GRF_stance_N.csv", header = FALSE)
+ML_GRF_stance_N <- read.csv("Data/ML_GRF_stance_N.csv", header = FALSE)
 
 # Transpose data & Add time %
 ML_GRF_stance_N <- t(ML_GRF_stance_N)
@@ -58,7 +58,7 @@ ggplot(avg_plot_ML_GRF, aes(Time, avg_value)) + geom_line()
 
 ## AP ##
 
-AP_GRF_stance_N <- read.csv("AP_GRF_stance_N.csv", header = FALSE)
+AP_GRF_stance_N <- read.csv("Data/AP_GRF_stance_N.csv", header = FALSE)
 
 # Transpose data & Add time %
 AP_GRF_stance_N <- t(AP_GRF_stance_N)
