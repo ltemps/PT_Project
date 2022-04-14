@@ -6,7 +6,7 @@ library(plotly)
 fda_V_tibble <- as_tibble(plot_V_GRF)
 
 n_points <- 100
-n_curves <- 15697
+n_curves <- 15697 #number of observations
 max_time <- 100
 
 # setting knots & plotting basis
@@ -16,7 +16,8 @@ n_order = 4 # order of basis functions: for cubic b-splines: order = 3 + 1
 n_basis   = length(knots) + n_order - 2;
 basis = create.bspline.basis(rangeval = c(0, max_time), n_basis)
 
-plot(basis)
+plot(basis) #currently using 20 knots, could try another number of knots to see if we obtain better variance
+
 # creating matrix for Time & value
 argvals <- matrix(fda_V_tibble$Time, nrow = n_points, ncol = n_curves)
 y_mat <- matrix(fda_V_tibble$value, nrow = n_points, ncol = n_curves)
@@ -54,12 +55,15 @@ fig <- plot_ly(x = days, y = days, z = ~var_mat) %>%
     z = list(show=TRUE,usecolormap=TRUE, highlightcolor="#ff0000", project=list(z=TRUE))))
 fig <- fig %>% 
   layout(scene = list(camera=list(eye = list(x=1.87, y=0.88, z=-0.64))))
-fig
+fig #shows how covariance varies at different points in time
+
 
 # fPCA
-fun_pca <- pca.fd(W.obj, nharm = 5)
+fun_pca <- pca.fd(W.obj, nharm = 2)
 plot(fun_pca$harmonics, lwd = 3)
 fun_pca$values #the complete set of eigenvalues
 fun_pca$varprop #a vector giving the proportion of variance explained by each eigenfunction
-#fun_pca$scores #a matrix of scores on the principal components, there are 15967 values, one for each curve
+sum(fun_pca$varprop) #explains 91% of the variance
+fun_pca$scores[1:3,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
 
+#see if we can transition it into an autoencoder
