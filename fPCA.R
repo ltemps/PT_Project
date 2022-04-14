@@ -59,7 +59,7 @@ fig
 # fPCA
 fun_pca <- pca.fd(W.obj, nharm = 5)
 plot(fun_pca$harmonics, lwd = 3)
-fun_pca$values
-fun_pca$varprop
-
+fun_pca$values #the complete set of eigenvalues
+fun_pca$varprop #a vector giving the proportion of variance explained by each eigenfunction
+#fun_pca$scores #a matrix of scores on the principal components, there are 15967 values, one for each curve
 
