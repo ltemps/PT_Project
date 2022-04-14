@@ -1,4 +1,4 @@
-source("~/Desktop/MA_679/Final Project/PT_Project/Recreating_Plots.R")
+source("Recreating_Plots.R")
 library(fda)
 library(tidyverse)
 library(plotly)
@@ -15,8 +15,8 @@ n_knots = length(knots) #Number of knots
 n_order = 4 # order of basis functions: for cubic b-splines: order = 3 + 1
 n_basis   = length(knots) + n_order - 2;
 basis = create.bspline.basis(rangeval = c(0, max_time), n_basis)
-plot(basis)
 
+plot(basis)
 # creating matrix for Time & value
 argvals <- matrix(fda_V_tibble$Time, nrow = n_points, ncol = n_curves)
 y_mat <- matrix(fda_V_tibble$value, nrow = n_points, ncol = n_curves)
