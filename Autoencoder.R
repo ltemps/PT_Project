@@ -1,13 +1,13 @@
 #Autoencoder
-source(file= "fPCA.R")
+source(file= "Recreating_Plots.R")
 pacman::p_load(keras)
 #https://www.r-bloggers.com/2018/07/pca-vs-autoencoders-for-dimensionality-reduction/
 
 #train test split
-split1<- sample(c(rep(0, 0.7 * nrow(fda_V_tibble)), 
-                  rep(1, 0.3 * nrow(fda_V_tibble))))
+split1<- sample(c(rep(0, 0.7 * nrow(plot_V_GRF)), 
+                  rep(1, 0.3 * nrow(plot_V_GRF))))
 head(split1)
-x_train <- fda_V_tibble[split1 == 0, ]
+x_train <- plot_V_GRF[split1 == 0, ]
 x_train <- as.matrix(x_train)
 
 #set model
