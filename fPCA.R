@@ -125,12 +125,12 @@ fig #shows how covariance varies at different points in time
 
 
 # fPCA
-fun_pca <- pca.fd(W.obj, nharm = 4) #First four principal components
+fun_pca <- pca.fd(W.obj, nharm = 5) #First five principal components
 plot(fun_pca$harmonics, lwd = 3)
 fun_pca$values #the complete set of eigenvalues
 fun_pca$varprop #a vector giving the proportion of variance explained by each eigenfunction
-sum(fun_pca$varprop) #explains 89% of the variance
-fun_pca$scores[1:4,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
+sum(fun_pca$varprop) #explains 92% of the variance
+fun_pca$scores[1:5,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
 
 
 ##------------------------------ AP_GRF_Data
@@ -190,9 +190,9 @@ fig #shows how covariance varies at different points in time
 
 
 # fPCA
-fun_pca <- pca.fd(W.obj, nharm = 4) #First four principal components
+fun_pca <- pca.fd(W.obj, nharm = 5) #First five principal components
 plot(fun_pca$harmonics, lwd = 3)
 fun_pca$values #the complete set of eigenvalues
 fun_pca$varprop #a vector giving the proportion of variance explained by each eigenfunction
-sum(fun_pca$varprop) #explains 89% of the variance
-fun_pca$scores[1:4,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
+sum(fun_pca$varprop) #explains 93% of the variance
+fun_pca$scores[1:5,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
