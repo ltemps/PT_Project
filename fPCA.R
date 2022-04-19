@@ -60,12 +60,12 @@ fig #shows how covariance varies at different points in time
 
 
 # fPCA
-fun_pca <- pca.fd(W.obj, nharm = 2)
-plot(fun_pca$harmonics, lwd = 3)
-fun_pca$values #the complete set of eigenvalues
-fun_pca$varprop #a vector giving the proportion of variance explained by each eigenfunction
-sum(fun_pca$varprop) #explains 91% of the variance
-fun_pca$scores[1:2,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
+fun_pca_v <- pca.fd(W.obj, nharm = 2)
+plot(fun_pca_v$harmonics, lwd = 3)
+fun_pca_v$values #the complete set of eigenvalues
+fun_pca_v$varprop #a vector giving the proportion of variance explained by each eigenfunction
+sum(fun_pca_v$varprop) #explains 91% of the variance
+fun_pca_v$scores[1:2,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
 
 #VARIMAX Rotation
 
@@ -80,15 +80,15 @@ fun_pca$scores[1:2,] #a matrix of scores on the principal components or harmonic
 #analysis)
 #varimax searches for a rotation (i.e., a linear combination) of
 #the original factors such that the variance of the loadings is maximized
-varmax <- varmx.pca.fd(fun_pca, nharm= 2, nx= 51)
+varmax_v <- varmx.pca.fd(fun_pca_vgrf, nharm= 2, nx= 51)
 
-varmax$rotmat
-#varmax$coefs
-varmax$varprop
-varmax$values
+varmax_v$rotmat
+#varmax_v$coefs
+varmax_v$varprop
+varmax_v$values
 #I think we then use these rather than the fun_pca$____ ones
-sum(varmax$varprop)
-varmax$scores[1:2,]
+sum(varmax_v$varprop)
+varmax_v$scores[1:2,]
 
 ##--------------------------------ML_GRF_Data
 fda_ML_tibble <- as_tibble(plot_ML_GRF)
@@ -147,22 +147,22 @@ fig #shows how covariance varies at different points in time
 
 
 # fPCA
-fun_pca <- pca.fd(W.obj, nharm = 5) #First five principal components
-plot(fun_pca$harmonics, lwd = 3)
-fun_pca$values #the complete set of eigenvalues
-fun_pca$varprop #a vector giving the proportion of variance explained by each eigenfunction
-sum(fun_pca$varprop) #explains 92% of the variance
-fun_pca$scores[1:5,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
+fun_pca_ml <- pca.fd(W.obj, nharm = 5) #First five principal components
+plot(fun_pca_ml$harmonics, lwd = 3)
+fun_pca_ml$values #the complete set of eigenvalues
+fun_pca_ml$varprop #a vector giving the proportion of variance explained by each eigenfunction
+sum(fun_pca_ml$varprop) #explains 92% of the variance
+fun_pca_ml$scores[1:5,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
 
 #VARIMAX Rotation
-varmax <- varmx.pca.fd(fun_pca, nharm= 5, nx= 51)
+varmax_ml <- varmx.pca.fd(fun_pca_ml, nharm= 5, nx= 51)
 
-varmax$rotmat
-#varmax$coefs
-varmax$varprop
-varmax$values
-sum(varmax$varprop)
-varmax$scores[1:5,]
+varmax_ml$rotmat
+#varmax_ml$coefs
+varmax_ml$varprop
+varmax_ml$values
+sum(varmax_ml$varprop)
+varmax_ml$scores[1:5,]
 
 ##------------------------------ AP_GRF_Data
 fda_AP_tibble <- as_tibble(plot_AP_GRF)
@@ -221,19 +221,19 @@ fig #shows how covariance varies at different points in time
 
 
 # fPCA
-fun_pca <- pca.fd(W.obj, nharm = 5) #First five principal components
-plot(fun_pca$harmonics, lwd = 3)
-fun_pca$values #the complete set of eigenvalues
-fun_pca$varprop #a vector giving the proportion of variance explained by each eigenfunction
-sum(fun_pca$varprop) #explains 93% of the variance
-fun_pca$scores[1:5,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
+fun_pca_ap <- pca.fd(W.obj, nharm = 5) #First five principal components
+plot(fun_pca_ap$harmonics, lwd = 3)
+fun_pca_ap$values #the complete set of eigenvalues
+fun_pca_ap$varprop #a vector giving the proportion of variance explained by each eigenfunction
+sum(fun_pca_ap$varprop) #explains 93% of the variance
+fun_pca_ap$scores[1:5,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
 
 #VARIMAX Rotation
-varmax <- varmx.pca.fd(fun_pca, nharm= 5, nx= 51)
+varmax_ap <- varmx.pca.fd(fun_pca_ap, nharm= 5, nx= 51)
 
-varmax$rotmat
-#varmax$coefs
-varmax$varprop
-varmax$values
-sum(varmax$varprop)
-varmax$scores[1:5,]
+varmax_ap$rotmat
+#varmax_ap$coefs
+varmax_ap$varprop
+varmax_ap$values
+sum(varmax_ap$varprop)
+varmax_ap$scores[1:5,]
