@@ -65,8 +65,30 @@ plot(fun_pca$harmonics, lwd = 3)
 fun_pca$values #the complete set of eigenvalues
 fun_pca$varprop #a vector giving the proportion of variance explained by each eigenfunction
 sum(fun_pca$varprop) #explains 91% of the variance
-fun_pca$scores[1:3,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
+fun_pca$scores[1:2,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
 
+#VARIMAX Rotation
+
+#VARIMAX rotation method often used to improve interpretability 
+#maximizes the sum of the variance of the squared loadings, 
+#where ‘loadings’ means correlations between variables and factors. 
+#in simple terms, the result is a small number of important variables are highlighted,
+#which makes it easier to interpret your results.
+
+#https://personal.utdallas.edu/~herve/Abdi-rotations-pretty.pdf
+# loadings are, in general, correlations between the original variables and the components extracted by the
+#analysis)
+#varimax searches for a rotation (i.e., a linear combination) of
+#the original factors such that the variance of the loadings is maximized
+varmax <- varmx.pca.fd(fun_pca, nharm= 2, nx= 51)
+
+varmax$rotmat
+#varmax$coefs
+varmax$varprop
+varmax$values
+#I think we then use these rather than the fun_pca$____ ones
+sum(varmax$varprop)
+varmax$scores[1:2,]
 
 ##--------------------------------ML_GRF_Data
 fda_ML_tibble <- as_tibble(plot_ML_GRF)
@@ -132,6 +154,15 @@ fun_pca$varprop #a vector giving the proportion of variance explained by each ei
 sum(fun_pca$varprop) #explains 92% of the variance
 fun_pca$scores[1:5,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
 
+#VARIMAX Rotation
+varmax <- varmx.pca.fd(fun_pca, nharm= 5, nx= 51)
+
+varmax$rotmat
+#varmax$coefs
+varmax$varprop
+varmax$values
+sum(varmax$varprop)
+varmax$scores[1:5,]
 
 ##------------------------------ AP_GRF_Data
 fda_AP_tibble <- as_tibble(plot_AP_GRF)
@@ -196,3 +227,13 @@ fun_pca$values #the complete set of eigenvalues
 fun_pca$varprop #a vector giving the proportion of variance explained by each eigenfunction
 sum(fun_pca$varprop) #explains 93% of the variance
 fun_pca$scores[1:5,] #a matrix of scores on the principal components or harmonics, there are 15967 values, one for each curve
+
+#VARIMAX Rotation
+varmax <- varmx.pca.fd(fun_pca, nharm= 5, nx= 51)
+
+varmax$rotmat
+#varmax$coefs
+varmax$varprop
+varmax$values
+sum(varmax$varprop)
+varmax$scores[1:5,]
