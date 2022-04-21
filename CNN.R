@@ -36,7 +36,11 @@ test <- as.matrix(test)
 y_test <- test[,3]
 x_test <- test[,1:2]
 
-#then define n_outputs and others
+#define time step, feature, output size
+#I don't think I did this part right
+n_timesteps <- length(x_train)
+n_features <- length(x_train)
+n_outputs <- length(y_train)
 
 #define CNN model using Keras
 #one sample is one window of the time series data
@@ -45,22 +49,21 @@ x_test <- test[,1:2]
 
 model <- keras_model_sequential()
 model %>% 
-  layer_Conv1D(filters = 64, kernel_size = 3, activation = "relu", input_shape = ncol(x_train)) %>%
+  layer_Conv1D(filters = 64, kernel_size = 3, activation = "relu", input_shape = ncol(n_timesteps, n_features)) %>%
   layer_Conv1D(filters = 64, kernel_size = 3, activation = "relu") %>%
   layer_dropout(0.5) %>%
   layer_MaxPooling1D(pool_size = 2) %>%
   layer_flatten() %>%
   layer_dense(units = 100, activation = "relu") %>%
-  #layer_dense(units = n_outputs, activation = "softmax")
-  
-#view layers
-summary(model)
-
-#compile model
-model %>%compile(
-  loss = "categorical_crossentropy",
-  optimizer = "adam",
-  metrics= "accuracy"
+  layer_dense(units = n_outputs, activation = "softmax") %>% 
+  compile(
+  loss = 'categorical_crossentropy',
+  optimizer = 'adam',
+  metrics= c('accuracy')
 ) 
 
+#train model
+model %>% fit(train, labels = train$ID , epochs = 10, batch_size = 32)
+
+#evaluate model
 model %>% evaluate(x_train, y_train, x_test, y_test)
