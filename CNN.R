@@ -3,6 +3,9 @@ source(file= "Recreating_Plots.R")
 pacman::p_load(keras)
 #https://keras.rstudio.com/articles/sequential_model.html
 
+#github key
+#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
+
 #load data and rename columns for join
 cnn_vdf <- plot_V_GRF
 cnn_vdf$V_GRF_stance <- as.integer(cnn_vdf$V_GRF_stance)
@@ -29,12 +32,12 @@ split1<- sample(c(rep(0, 0.7 * nrow(CNN_DF)),
 #head(split1)
 train <- CNN_DF[split1 == 0, ]
 train <- as.matrix(train)
-y_train <- train[,3:6]
+y_train <- train[,3:5]
 x_train <- train[,1:2]
 
 test <- CNN_DF[split1 == 1, ]
 test <- as.matrix(test)
-y_test <- test[,3:6]
+y_test <- test[,3:5]
 x_test <- test[,1:2]
 
 #define time step, feature, output size
@@ -46,7 +49,7 @@ n_outputs <- length(y_train)
 
 model <- keras_model_sequential()
 model %>% 
-  layer_conv_1d(filters = 64, kernel_size = 3, activation = "relu", input_shape = ncol(n_timesteps, n_features)) %>%
+  layer_conv_1d(filters = 64, kernel_size = 3, activation = "relu", input_shape = c(n_timesteps, n_features)) %>%
   layer_conv_1d(filters = 64, kernel_size = 3, activation = "relu") %>%
   layer_dropout(0.5) %>%
   layer_max_pooling_1d(pool_size = 2) %>%
