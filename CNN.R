@@ -63,7 +63,8 @@ model %>%
 ) 
 
 #train model
-model %>% fit(train, labels = train$ID , epochs = 10, batch_size = 32)
+#model %>% fit(train, labels = train$ID , epochs = 10, batch_size = 100)
+model %>% fit(x_train, y_train , epochs = 10, batch_size = 100)
 
 #evaluate model
-model %>% evaluate(x_train, y_train, x_test, y_test)
+score <- model %>% evaluate(x_test, y_test, batch_size = 100)
