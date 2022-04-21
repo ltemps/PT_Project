@@ -1,6 +1,7 @@
 #CNN
 source(file= "Recreating_Plots.R")
 pacman::p_load(keras)
+#https://keras.rstudio.com/articles/sequential_model.html
 
 #load data and rename columns for join
 cnn_vdf <- plot_V_GRF
@@ -28,38 +29,34 @@ split1<- sample(c(rep(0, 0.7 * nrow(CNN_DF)),
 #head(split1)
 train <- CNN_DF[split1 == 0, ]
 train <- as.matrix(train)
-y_train <- train[,3]
+y_train <- train[,3:6]
 x_train <- train[,1:2]
 
 test <- CNN_DF[split1 == 1, ]
 test <- as.matrix(test)
-y_test <- test[,3]
+y_test <- test[,3:6]
 x_test <- test[,1:2]
 
 #define time step, feature, output size
-#I don't think I did this part right
 n_timesteps <- length(x_train)
-n_features <- length(x_train)
+n_features <- ncol(x_train)
 n_outputs <- length(y_train)
 
 #define CNN model using Keras
-#one sample is one window of the time series data
-#output will be a x-element vector containing the probability of a given window
-  #belonging to each of the x activity types
 
 model <- keras_model_sequential()
 model %>% 
-  layer_Conv1D(filters = 64, kernel_size = 3, activation = "relu", input_shape = ncol(n_timesteps, n_features)) %>%
-  layer_Conv1D(filters = 64, kernel_size = 3, activation = "relu") %>%
+  layer_conv_1d(filters = 64, kernel_size = 3, activation = "relu", input_shape = ncol(n_timesteps, n_features)) %>%
+  layer_conv_1d(filters = 64, kernel_size = 3, activation = "relu") %>%
   layer_dropout(0.5) %>%
-  layer_MaxPooling1D(pool_size = 2) %>%
+  layer_max_pooling_1d(pool_size = 2) %>%
   layer_flatten() %>%
   layer_dense(units = 100, activation = "relu") %>%
   layer_dense(units = n_outputs, activation = "softmax") %>% 
   compile(
   loss = 'categorical_crossentropy',
   optimizer = 'adam',
-  metrics= c('accuracy')
+  metrics = c('accuracy')
 ) 
 
 #train model
