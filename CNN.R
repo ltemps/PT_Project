@@ -66,6 +66,7 @@ model %>%
 ) 
 
 #train model, breaks here now
+#I think its something to do with the SCC not the code
 model %>% fit(x_train, y_train, epochs = 10, batch_size = 100)
 
 #evaluate model
