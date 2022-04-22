@@ -1,7 +1,8 @@
 #CNN
 source(file= "Recreating_Plots.R")
-pacman::p_load(keras)
+library(keras)
 #https://keras.rstudio.com/articles/sequential_model.html
+#https://machinelearningmastery.com/cnn-models-for-human-activity-recognition-time-series-classification/
 
 #github key
 #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
@@ -46,11 +47,13 @@ n_features <- ncol(x_train)
 n_outputs <- length(y_train)
 
 #define CNN model using Keras
+#had to make filter size smaller in order to run on 10 cores with 4 GPU
+#can make kernel_size a matrix, maybe do that?
 
 model <- keras_model_sequential()
 model %>% 
-  layer_conv_1d(filters = 64, kernel_size = 3, activation = "relu", input_shape = c(n_timesteps, n_features)) %>%
-  layer_conv_1d(filters = 64, kernel_size = 3, activation = "relu") %>%
+  layer_conv_1d(filters = 10, kernel_size = 3, activation = "relu", input_shape = c(n_timesteps, n_features)) %>%
+  layer_conv_1d(filters = 10, kernel_size = 3, activation = "relu") %>%
   layer_dropout(0.5) %>%
   layer_max_pooling_1d(pool_size = 2) %>%
   layer_flatten() %>%
@@ -62,9 +65,8 @@ model %>%
   metrics = c('accuracy')
 ) 
 
-#train model
-#model %>% fit(train, labels = train$ID , epochs = 10, batch_size = 100)
-model %>% fit(x_train, y_train , epochs = 10, batch_size = 100)
+#train model, breaks here now
+model %>% fit(x_train, y_train, epochs = 10, batch_size = 100)
 
 #evaluate model
 score <- model %>% evaluate(x_test, y_test, batch_size = 100)
