@@ -42,18 +42,17 @@ y_test <- test[,3:5]
 x_test <- test[,1:2]
 
 #define time step, feature, output size
-n_timesteps <- length(x_train)
+n_timesteps <- nrow(x_train)
 n_features <- ncol(x_train)
-n_outputs <- length(y_train)
+n_outputs <- nrow(y_train)
 
 #define CNN model using Keras
 #had to make filter size smaller in order to run on 10 cores with 4 GPU
-#can make kernel_size a matrix, maybe do that?
 
 model <- keras_model_sequential()
 model %>% 
-  layer_conv_1d(filters = 10, kernel_size = 3, activation = "relu", input_shape = c(n_timesteps, n_features)) %>%
-  layer_conv_1d(filters = 10, kernel_size = 3, activation = "relu") %>%
+  layer_conv_1d(filters = 6, kernel_size = 3, activation = "relu", input_shape = c(n_timesteps, n_features)) %>%
+  layer_conv_1d(filters = 6, kernel_size = 3, activation = "relu") %>%
   layer_dropout(0.5) %>%
   layer_max_pooling_1d(pool_size = 2) %>%
   layer_flatten() %>%
@@ -66,7 +65,8 @@ model %>%
   ) 
 
 #train model, breaks here now
-model %>% fit(x_train, y_train, epochs = 10, batch_size = 100)
+model %>% fit(x_train, y_train, epochs = 10, batch_size = 105)
+#105 is a multiple of n_outputs which is the number of rows in training data
 
 #evaluate model
-score <- model %>% evaluate(x_test, y_test, batch_size = 100)
+score <- model %>% evaluate(x_test, y_test, batch_size = 105)
