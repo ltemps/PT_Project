@@ -30,23 +30,21 @@ CNN_DF <- full_join(CNN_DF, cnn_vdf)
 #train test split
 split1<- sample(c(rep(0, 0.7 * nrow(CNN_DF)), 
                   rep(1, 0.3 * nrow(CNN_DF))))
-
+#head(split1)
 train <- CNN_DF[split1 == 0, ]
-train_rowdim <- nrow(train)
 train <- as.matrix(train)
-test <- CNN_DF[split1 == 1, ]
-test_rowdim <- nrow(test)
-test <- as.matrix(test)
-
 y_train <- train[,3:5]
 x_train <- train[,1:2]
+
+test <- CNN_DF[split1 == 1, ]
+test <- as.matrix(test)
 y_test <- test[,3:5]
 x_test <- test[,1:2]
 
 #define time step, feature, output size
-n_timesteps <- nrow(x_train)
+n_timesteps <- length(x_train)
 n_features <- ncol(x_train)
-n_outputs <- nrow(y_train)
+n_outputs <- length(y_train)
 
 #define CNN model using Keras
 #had to make filter size smaller in order to run on 10 cores with 4 GPU
@@ -62,13 +60,12 @@ model %>%
   layer_dense(units = 100, activation = "relu") %>%
   layer_dense(units = n_outputs, activation = "softmax") %>% 
   compile(
-  loss = 'categorical_crossentropy',
-  optimizer = 'adam',
-  metrics = c('accuracy')
-) 
+    loss = 'categorical_crossentropy',
+    optimizer = 'adam',
+    metrics = c('accuracy')
+  ) 
 
 #train model, breaks here now
-#Error has to do with the dimensions of the data?
 model %>% fit(x_train, y_train, epochs = 10, batch_size = 100)
 
 #evaluate model
