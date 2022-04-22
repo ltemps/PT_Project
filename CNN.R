@@ -49,11 +49,16 @@ n_outputs <- nrow(y_train)
 #define CNN model using Keras
 #had to make filter size smaller in order to run on 10 cores with 4 GPU
 
+#filters- Integer, the dimensionality of the output space (i.e. the number of output filters in the convolution)
+#kernel_size- An integer or list of a single integer, specifying the length of the 1D convolution window.
+
+#note to self: once on new server, try running not as matricies
+
 model <- keras_model_sequential()
 model %>% 
   layer_conv_1d(filters = 6, kernel_size = 3, activation = "relu", input_shape = c(n_timesteps, n_features)) %>%
   layer_conv_1d(filters = 6, kernel_size = 3, activation = "relu") %>%
-  layer_dropout(0.5) %>%
+  layer_dropout(0.50) %>%
   layer_max_pooling_1d(pool_size = 2) %>%
   layer_flatten() %>%
   layer_dense(units = 100, activation = "relu") %>%
