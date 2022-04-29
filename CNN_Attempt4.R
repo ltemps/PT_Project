@@ -1,4 +1,5 @@
-#CNN
+#CNN with just one output column
+
 source(file= "Recreating_Plots.R")
 library(keras)
 library(caTools)
@@ -43,19 +44,19 @@ test <- CNN_DF[1177201:1569600,] # 75/25 split while maintaining groups
 #train <- subset(CNN_DF, split1 == TRUE) #caTool split
 rownames(train) = seq(length = nrow(train))
 #train <- as.matrix(train)
-y_train <- train[,3:5]
+y_train <- train[,3] #just one output
 x_train <- train[,1:2]
 
 #test <- subset(CNN_DF, split1 == FALSE) #caTool split
 rownames(test) = seq(length = nrow(test))
 #test <- as.matrix(test)
-y_test <- test[,3:5]
+y_test <- test[,3] #just one output
 x_test <- test[,1:2]
 
 #define time step, feature, output size
-n_timesteps <- nrow(x_train) %>% as.numeric()
-n_features <- ncol(x_train) %>% as.numeric()
-n_outputs <- nrow(y_train) %>% as.numeric()
+n_timesteps <- nrow(x_train)
+n_features <- ncol(x_train)
+n_outputs <- length(y_train)
 
 #define CNN model using Keras
 #had to make filter size smaller in order to run on 10 cores with 4 GPU
