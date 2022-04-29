@@ -1,6 +1,7 @@
 #CNN
 source(file= "Recreating_Plots.R")
 library(keras)
+library(caTools)
 #https://keras.rstudio.com/articles/sequential_model.html
 #https://machinelearningmastery.com/cnn-models-for-human-activity-recognition-time-series-classification/
 
@@ -28,15 +29,18 @@ CNN_DF <- full_join(cnn_apdf, cnn_mldf)
 CNN_DF <- full_join(CNN_DF, cnn_vdf)
 
 #train test split
-split1<- sample(c(rep(0, 0.7 * nrow(CNN_DF)), 
-                  rep(1, 0.3 * nrow(CNN_DF))))
+set.seed(42)
+split1 <- sample.split(CNN_DF, SplitRatio= .70)
 #head(split1)
-train <- CNN_DF[split1 == 0, ]
+train <- subset(CNN_DF, split1 == TRUE)
+rownames(train) = seq(length = nrow(train))
+
 #train <- as.matrix(train)
 y_train <- train[,3:5]
 x_train <- train[,1:2]
 
-test <- CNN_DF[split1 == 1, ]
+test <- subset(CNN_DF, split1 == FALSE)
+rownames(test) = seq(length = nrow(test))
 #test <- as.matrix(test)
 y_test <- test[,3:5]
 x_test <- test[,1:2]
