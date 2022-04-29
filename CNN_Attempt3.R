@@ -2,6 +2,7 @@
 source(file= "Recreating_Plots.R")
 library(keras)
 library(caTools)
+#library(caret)
 #https://keras.rstudio.com/articles/sequential_model.html
 #https://machinelearningmastery.com/cnn-models-for-human-activity-recognition-time-series-classification/
 
@@ -28,18 +29,23 @@ cnn_apdf <- rename(cnn_apdf, ID = AP_GRF_stance)
 CNN_DF <- full_join(cnn_apdf, cnn_mldf)
 CNN_DF <- full_join(CNN_DF, cnn_vdf)
 
+#tm <- CNN_DF[,3:5] #used for caret creatTimeSlices (incomplete)
+
 #train test split
 set.seed(42)
-split1 <- sample.split(CNN_DF, SplitRatio= .70)
-#head(split1)
-train <- subset(CNN_DF, split1 == TRUE)
-rownames(train) = seq(length = nrow(train))
+#split1 <- sample.split(CNN_DF, SplitRatio= .75) #caTool split, 75% to ensure even number of observations
+#folds <- createTimeSlices(y = tm, 11772, horizon = 3924, fixedWindow = TRUE, 0) #caret split for time series (incomplete)
+train <- CNN_DF[1:1177200,]# 75/25 split while maintaining groups
+test <- CNN_DF[1177201:1569600,] # 75/25 split while maintaining groups
 
+
+#train <- subset(CNN_DF, split1 == TRUE) #caTool split
+rownames(train) = seq(length = nrow(train))
 #train <- as.matrix(train)
 y_train <- train[,3:5]
 x_train <- train[,1:2]
 
-test <- subset(CNN_DF, split1 == FALSE)
+#test <- subset(CNN_DF, split1 == FALSE) #caTool split
 rownames(test) = seq(length = nrow(test))
 #test <- as.matrix(test)
 y_test <- test[,3:5]
@@ -56,7 +62,6 @@ n_outputs <- nrow(y_train)
 #filters- Integer, the dimensionality of the output space (i.e. the number of output filters in the convolution)
 #kernel_size- An integer or list of a single integer, specifying the length of the 1D convolution window.
 
-#note to self: once on new server, try running not as matricies
 
 model <- keras_model_sequential()
 model %>% 
@@ -74,8 +79,10 @@ model %>%
   ) 
 
 #train model, breaks here now
-model %>% fit(x_train, y_train, epochs = 10, batch_size = 105)
+#model %>% fit(x_train, y_train, epochs = 10, batch_size = 105)
 #105 is a multiple of n_outputs which is the number of rows in training data
+model %>% fit(x_train, y_train, epochs = 10, batch_size = 108) #use for caTools split and manual split
 
 #evaluate model
-score <- model %>% evaluate(x_test, y_test, batch_size = 105)
+#score <- model %>% evaluate(x_test, y_test, batch_size = 105)
+score <- model %>% evaluate(x_test, y_test, batch_size = 109) #use for caTools split and manual split
