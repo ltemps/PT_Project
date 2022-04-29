@@ -1,4 +1,7 @@
 #CNN
+
+#-l gpu_memory=16G
+
 source(file= "Recreating_Plots.R")
 library(keras)
 #https://keras.rstudio.com/articles/sequential_model.html
