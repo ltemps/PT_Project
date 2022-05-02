@@ -45,17 +45,52 @@ rownames(train) = seq(length = nrow(train))
 #train <- as.matrix(train)
 y_train <- train[,3:5]
 x_train <- train[,1:2]
+#x_train <- train[,1] #x as just time rather than time and ID
 
 #test <- subset(CNN_DF, split1 == FALSE) #caTool split
 rownames(test) = seq(length = nrow(test))
 #test <- as.matrix(test)
 y_test <- test[,3:5]
 x_test <- test[,1:2]
+#x_test <- test[,1] #x as just time rather than time and ID
 
 #define time step, feature, output size
 n_timesteps <- nrow(x_train) %>% as.numeric()
 n_features <- ncol(x_train) %>% as.numeric()
 n_outputs <- nrow(y_train) %>% as.numeric()
+
+
+#trying to fix error5_2
+CNN_DF2 <- CNN_DF
+CNN_DF2 <- rename(CNN_DF2, 'conv1d_1_input'='Time'. 'conv1d_5_input'='ID')
+train <- CNN_DF2[1:1177200,]# 75/25 split while maintaining groups
+test <- CNN_DF2[1177201:1569600,] # 75/25 split while maintaining groups
+rownames(train) = seq(length = nrow(train))
+y_train <- train[,3:5]
+x_train <- train[,1:2]
+rownames(test) = seq(length = nrow(test))
+y_test <- test[,3:5]
+x_test <- test[,1:2]
+n_timesteps <- nrow(x_train) %>% as.numeric()
+n_features <- ncol(x_train) %>% as.numeric()
+n_outputs <- nrow(y_train) %>% as.numeric()
+#still issues with data dictionary
+
+#trying datawithout any column names
+CNN_DF3 <- CNN_DF
+names(CNN_DF3) <- NULL
+train <- CNN_DF3[1:1177200,]# 75/25 split while maintaining groups
+test <- CNN_DF3[1177201:1569600,] # 75/25 split while maintaining groups
+rownames(train) = seq(length = nrow(train))
+y_train <- train[,3:5]
+x_train <- train[,1:2]
+rownames(test) = seq(length = nrow(test))
+y_test <- test[,3:5]
+x_test <- test[,1:2]
+n_timesteps <- nrow(x_train) %>% as.numeric()
+n_features <- ncol(x_train) %>% as.numeric()
+n_outputs <- nrow(y_train) %>% as.numeric()
+
 
 #define CNN model using Keras
 #had to make filter size smaller in order to run on 10 cores with 4 GPU
@@ -79,7 +114,7 @@ model %>%
     metrics = c('accuracy')
   ) 
 
-#train model, breaks here now
+#train model
 #model %>% fit(x_train, y_train, epochs = 10, batch_size = 105)
 #105 is a multiple of n_outputs which is the number of rows in training data
 model %>% fit(x_train, y_train, epochs = 10, batch_size = 108) #use for caTools split and manual split
