@@ -1,3 +1,4 @@
+#CNN Attempt with smaller subset of data
 #CNN
 source(file= "Recreating_Plots.R")
 library(keras)
@@ -30,16 +31,17 @@ cnn_apdf <- rename(cnn_apdf, ID = AP_GRF_stance)
 CNN_DF <- full_join(cnn_apdf, cnn_mldf)
 CNN_DF <- full_join(CNN_DF, cnn_vdf)
 
+#decrease number of observations in CNN_DF to try and use less memory
+CNN_DF <- CNN_DF[1:392400, ] #1/4 of the original data
+
 #tm <- CNN_DF[,3:5] #used for caret creatTimeSlices (incomplete)
 
 #train test split
 set.seed(42)
 #split1 <- sample.split(CNN_DF, SplitRatio= .75) #caTool split, 75% to ensure even number of observations
 #folds <- createTimeSlices(y = tm, 11772, horizon = 3924, fixedWindow = FALSE, 0) #caret split for time series (incomplete)
-train <- CNN_DF[1:1177200,]# 75/25 split while maintaining groups
-train <- to_categorical(train) #trying to fix data dictionary error 5_2
-test <- CNN_DF[1177201:1569600,] # 75/25 split while maintaining groups
-test <- to_categorical(test) #trying to fix data dictionary error5_2
+train <- CNN_DF[1:294300,]# 75/25 split while maintaining groups
+test <- CNN_DF[294301:392400 ,] # 75/25 split while maintaining groups
 
 
 #train <- subset(CNN_DF, split1 == TRUE) #caTool split
@@ -54,7 +56,7 @@ rownames(test) = seq(length = nrow(test))
 #test <- as.matrix(test)
 y_test <- test[,3:5]
 x_test <- test[,1:2]
-#x_test <- test[,1] #x as just time rather than time and ID
+
 
 #define time step, feature, output size
 n_timesteps <- nrow(x_train) %>% as.numeric()
@@ -62,20 +64,11 @@ n_features <- ncol(x_train) %>% as.numeric()
 n_outputs <- nrow(y_train) %>% as.numeric()
 
 
-#trying datawithout any column names
-#CNN_DF3 <- CNN_DF
-#names(CNN_DF3) <- NULL
-#train <- CNN_DF3[1:1177200,]# 75/25 split while maintaining groups
-#test <- CNN_DF3[1177201:1569600,] # 75/25 split while maintaining groups
-#rownames(train) = seq(length = nrow(train))
-#y_train <- train[,3:5]
-#x_train <- train[,1:2]
-#rownames(test) = seq(length = nrow(test))
-#y_test <- test[,3:5]
-#x_test <- test[,1:2]
-#n_timesteps <- nrow(x_train) %>% as.numeric()
-#n_features <- ncol(x_train) %>% as.numeric()
-#n_outputs <- nrow(y_train) %>% as.numeric()
+y_train <- to_categorical(y_train) #trying to fix data dictionary error 5_2
+x_train <- to_categorical(x_train) #trying to fix data dictionary error 5_2
+y_test <- to_categorical(y_test) #trying to fix data dictionary error 5_2
+x_test <- to_categorical(x_test) #trying to fix data dictionary error 5_2
+#x_test <- test[,1] #x as just time rather than time and ID
 
 
 #define CNN model using Keras
@@ -85,26 +78,4 @@ n_outputs <- nrow(y_train) %>% as.numeric()
 #kernel_size- An integer or list of a single integer, specifying the length of the 1D convolution window.
 
 
-model <- keras_model_sequential()
-model %>% 
-  layer_conv_1d(filters = 6, kernel_size = 3, activation = "relu", input_shape = c(n_timesteps, n_features)) %>%
-  layer_conv_1d(filters = 6, kernel_size = 3, activation = "relu") %>%
-  layer_dropout(0.50) %>%
-  layer_max_pooling_1d(pool_size = 2) %>%
-  layer_flatten() %>%
-  layer_dense(units = 100, activation = "relu") %>%
-  layer_dense(units = n_outputs, activation = "softmax") %>% 
-  compile(
-    loss = 'categorical_crossentropy',
-    optimizer = 'adam',
-    metrics = c('accuracy')
-  ) 
-
-#train model
-#model %>% fit(x_train, y_train, epochs = 10, batch_size = 105)
-#105 is a multiple of n_outputs which is the number of rows in training data
-model %>% fit(x_train, y_train, epochs = 10, batch_size = 108) #use for caTools split and manual split
-
-#evaluate model
-#score <- model %>% evaluate(x_test, y_test, batch_size = 105)
-score <- model %>% evaluate(x_test, y_test, batch_size = 109) #use for caTools split and manual split
+,
