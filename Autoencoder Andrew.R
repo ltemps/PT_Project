@@ -1,7 +1,9 @@
 library(keras)
 library(tensorflow)
+library(plotly)
 install_keras()
 
+V_GRF_stance_N <- read.csv("Data/V_GRF_stance_N.csv", header = FALSE)
 
 testdf <- V_GRF_stance_N
 testdf <- sapply(testdf, function(x) (x - min(x, na.rm = T)) / (max(x, na.rm = T) - min(x, na.rm=T)))
@@ -33,10 +35,18 @@ model %>%compile(
 model %>% fit(
   x = x_train, 
   y = x_train,
-  epochs = 50,
-  verbose = 0,
-  batch_size = 5
+  epochs = 1000,
+  verbose = 0
 )
 
 mse.ae2 <- evaluate(model, x_train, x_train)
 mse.ae2
+
+# exgtract the bottleneck layer
+intermediate_layer_model <- keras_model(inputs = model$input, outputs = get_layer(model, "bottleneck")$output)
+intermediate_output <- predict(intermediate_layer_model, x_train)
+
+# plot the reduced dat set
+aedf3 <- data.frame(node1 = intermediate_output[,1], node2 = intermediate_output[,2], node3 = intermediate_output[,3])
+ae_plotly <- plot_ly(aedf3, x = ~node1, y = ~node2, z = ~node3) %>% add_markers()
+ae_plotly
