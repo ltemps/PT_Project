@@ -42,11 +42,9 @@ model %>% fit(
 mse.ae2 <- evaluate(model, x_train, x_train)
 mse.ae2
 
-# exgtract the bottleneck layer
 intermediate_layer_model <- keras_model(inputs = model$input, outputs = get_layer(model, "bottleneck")$output)
 intermediate_output <- predict(intermediate_layer_model, x_train)
 
-# plot the reduced dat set
 aedf3 <- data.frame(node1 = intermediate_output[,1], node2 = intermediate_output[,2], node3 = intermediate_output[,3])
 ae_plotly <- plot_ly(aedf3, x = ~node1, y = ~node2, z = ~node3) %>% add_markers()
 ae_plotly
