@@ -15,6 +15,10 @@ source(file = 'Autoencoder.R')
 
 \newpage
 
+# Introduction
+
+The data we were provided with was force plate data. Our team chose to use the time standardized stance data in our data reconstruction. 
+
 # Approach Summary
 
 PCA
@@ -38,10 +42,16 @@ fPCA
 
 # Autoencoder
 
+Our team created a simple auto encoder as a second method to perform dimension reduction on the data. The auto encoder was done using the V GRF Stance time normalized data. The parameters of the auto encoder are shown below. The bottleneck layer assigned weights to the encoded data. These weights were then used to decode the data using a reduced number of dimensions. We calculated the reconstruction error of the auto encoder using the mean squared error and got a loss of 0.0004.
+
 ![Caption](Images/model_layers.jpg)
 
 ![Caption](Images/model_loss.jpg)
+We decided to rerun this model with varying values for the bottleneck layer to see if we could get a lower reconstruction error but found that regardless of the bottleneck layer size the reconstruction loss stayed the same.
 
+![Caption](Images/modelk_param.jpg)
+
+![Caption](Images/modelk_loss.jpg)
 
 # fPCA
 
@@ -50,3 +60,7 @@ fPCA
 ![Caption](Images/pca_ml.png)
 
 ![Caption](Images/pca_ap.png)
+
+# Future Directions
+
+Due to the way our fPCA was constructed we were unable to reconstruct the data. In retrospect, if we were given more time we could construct our fPCA differently so that the data may be reconstructed. If this is done then we would be able to compare the reconstruction error of our fPCA to that of the auto encoder.
