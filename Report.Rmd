@@ -17,7 +17,9 @@ source(file = 'Autoencoder.R')
 
 # Introduction
 
+(What is the data)
 The data we were provided with was force plate data. Our team chose to use the time standardized stance data in our data reconstruction. 
+(What is dimension reduction, reconstruction)
 
 # Approach Summary
 
@@ -35,6 +37,8 @@ fPCA
 
 # PCA Reconstruction Error
 
+Our team began this project by performing a principal component analysis of the V GRF Stance time normalized data. From our PCA we then reconstructed the data to calculate the reconstruction error. This will tell us how much error there is when the data is reconstructed using a reduced number of dimensions. (Talk about the results)
+
 ![Caption](Images/pca_scree.png)
 
 ![Caption](Images/pca_loss.png)
@@ -42,25 +46,33 @@ fPCA
 
 # Autoencoder
 
-Our team created a simple auto encoder as a second method to perform dimension reduction on the data. The auto encoder was done using the V GRF Stance time normalized data. The parameters of the auto encoder are shown below. The bottleneck layer assigned weights to the encoded data. These weights were then used to decode the data using a reduced number of dimensions. We calculated the reconstruction error of the auto encoder using the mean squared error and got a loss of 0.0004.
+Our team created a simple autoencoder as a second method to perform dimension reduction on the data. 
 
-![Caption](Images/model_layers.jpg)
+(Explain what an autoencoder does/is)
 
-![Caption](Images/model_loss.jpg)
-We decided to rerun this model with varying values for the bottleneck layer to see if we could get a lower reconstruction error but found that regardless of the bottleneck layer size the reconstruction loss stayed the same.
+The autoencoder was done using the V GRF Stance time normalized data. The parameters of the auto encoder are shown below. The bottleneck layer assigned weights to the encoded data. These weights were then used to decode the data using a reduced number of dimensions. We calculated the reconstruction error of the auto encoder using the mean squared error and got a loss of 0.0004. We decided to rerun this model with varying values for the bottleneck layer to see if we could get a lower reconstruction error but found that regardless of the bottleneck layer size the reconstruction loss stayed the same.
 
-![Caption](Images/modelk_param.jpg)
+![Autoencoder Parameters](Images/model_layers.jpg)
 
-![Caption](Images/modelk_loss.jpg)
+![Autoencoder Loss](Images/model_loss.jpg)
+
+![Autoencoder Parameters Varying Bottleneck Size 1:7](Images/modelk_param.jpg)
+
+![Autoencoder Loss Varying Bottleneck Size 1:7](Images/modelk_loss.jpg)
 
 # fPCA
 
-![Caption](Images/pca_vgrf.png)
+We decided to use functional principal component analysis due to the sequential nature of the data set. Functional principal component analysis was done on each of the time normalized data sets. 
 
-![Caption](Images/pca_ml.png)
+(Explain the parameters of the fPCA)
 
-![Caption](Images/pca_ap.png)
+We found that each data set could be explained using at most five principal components. With five principal components we could explain about 90% of the variation in the data for the ML GRF Stance data as well as the AP GRF Stance data. The V GRF stance data was able to be explained to the same degree with only two principal components. Due to the way our fPCA was constructed we were unable to reconstruct the data. If we were given more time we could construct our fPCA differently so that the data may be reconstructed. If this is done then we would be able to compare the reconstruction error of our fPCA to that of the auto encoder.
 
-# Future Directions
+![V GRF Stance fPCA Results](Images/pca_vgrf.png)
 
-Due to the way our fPCA was constructed we were unable to reconstruct the data. In retrospect, if we were given more time we could construct our fPCA differently so that the data may be reconstructed. If this is done then we would be able to compare the reconstruction error of our fPCA to that of the auto encoder.
+![ML GRF Stance fPCA Results](Images/pca_ml.png)
+
+![AP GRF Stance fPCA Results](Images/pca_ap.png)
+
+# Conclusion
+
