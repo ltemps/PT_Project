@@ -90,7 +90,7 @@ for(k in 1:7){
   )
   ae.mse[k] <- unname(evaluate(model, x_train, x_train))
 }
-df <- data.frame(k = c(1:7, 1:7), mse = c(xhat, ae.mse), method = c(rep("pca", 7), rep("autoencoder", 7)))
+df <- data.frame(k = c(1:7), mse = c(xhat), method = c(rep("pca", 7)))
 ggplot(df, aes(x = k, y = mse, col = method)) +
   geom_line()
 
