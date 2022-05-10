@@ -1,0 +1,18 @@
+---
+title: "Force Plate Data Dimension Reduction Report"
+author: "Lauren Temple, Andrew Sisitzky, Rachel Donahue"
+date: "5/9/2022"
+output: 
+  pdf_document:
+    latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source(file = 'fPCA.R')
+source(file = 'Autoencoder.R')
+```
+
+\newpage
+
+# Introduction
