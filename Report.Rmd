@@ -15,4 +15,38 @@ source(file = 'Autoencoder.R')
 
 \newpage
 
-# Introduction
+# Approach Summary
+
+PCA
+Autoencoder
+fPCA
+
+
+# Why is Reconstruction Useful?
+
+- quantify the loss of the dimension reduced data set
+- PCA: data is reconstructed using only the specified principal components
+- Autoencoder: data is decoded using the weights assigned during the bottleneck layer
+- allows us to create a dataset that is comparable to the original after dimension reduction
+
+# PCA Reconstruction Error
+
+![Caption](Images/pca_scree.png)
+
+![Caption](Images/pca_loss.png)
+
+
+# Autoencoder
+
+![Caption](Images/model_layers.jpg)
+
+![Caption](Images/model_loss.jpg)
+
+
+# fPCA
+
+![Caption](Images/pca_vgrf.png)
+
+![Caption](Images/pca_ml.png)
+
+![Caption](Images/pca_ap.png)
