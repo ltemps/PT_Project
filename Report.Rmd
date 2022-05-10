@@ -17,8 +17,7 @@ source(file = 'Autoencoder.R')
 
 # Introduction
 
-(What is the data)
-The data we were provided with was force plate data. Our team chose to use the time standardized stance data in our data reconstruction. 
+This report will provide an explanation of the techniques our team used to perform dimension reduction and data reconstruction. The data we were provided for this project was force plate data compiled by a team of graduate students at the Boston University Sargent College of Health and Rehabilitation Services. Our team chose to use the time standardized stance data in our data reconstruction. 
 (What is dimension reduction, reconstruction)
 
 # Approach Summary
