@@ -1,5 +1,11 @@
 # PT_Project
 
+The data we were provided for this project was force plate data compiled by a team of graduate students at the Boston University Sargent College of Health and Rehabilitation Services. Our team chose to use the time normalized stance data in our data reconstruction. Each dataset includes trial records for 15696 individuals. Each trial spans 100 time normalized data points.
+
+The datasets consisted of a large number of features for each trial, our objective was to perform dimension reduction on this data. Our team used PCA (Principal Component Analysis), Autoencoders and fPCA (functional Principal Component Analysis) techniques to perform dimension reduction. This enabled us to see which features were most significantly contributing to the data, and to reduce highly correlated measurements. We were also able to perform reconstruction on the PCA and the Autoencoder, which allowed us to see how well the dimension reduction was performing. 
+
+# About the data
+
 IDinfo contains the row identifiers that apply to the rows for each of the data files contained in Data.zip​
 
 Time series data are contained in the following files:​
