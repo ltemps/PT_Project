@@ -10,7 +10,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 source(file = 'fPCA.R')
-source(file = 'Autoencoder.R')
+source(file = 'Autoencoder Andrew.R')
 ```
 
 \newpage
@@ -18,6 +18,9 @@ source(file = 'Autoencoder.R')
 # Introduction
 
 This report will provide an explanation of the techniques our team used to perform dimension reduction and data reconstruction. The data we were provided for this project was force plate data compiled by a team of graduate students at the Boston University Sargent College of Health and Rehabilitation Services. Our team chose to use the time normalized stance data in our data reconstruction. Each dataset includes trial records for 15696 individuals. Each trial spans 100 time normalized data points.
+
+Since the dataset was comprised of a large number of features for each trial, our team used PCA, Autoencoders and fPCA techniques to perform dimesion reduction. This enabled us to see which features were most significantly contributing to the data, and to reduce down correlations between time points.
+
 
 (Explain dimension reduction, reconstruction)
 
@@ -37,7 +40,7 @@ fPCA
 
 # PCA Reconstruction Error
 
-Our team began this project by performing a principal component analysis of the V GRF Stance time normalized data. From our PCA we then reconstructed the data to calculate the reconstruction error. This will tell us how much error there is when the data is reconstructed using a reduced number of dimensions. (Talk about the results)
+Our team began this project by performing a principal component analysis of the V GRF Stance time normalized data. From our PCA we then reconstructed the data to calculate the reconstruction error. This will tell us how much error there is when the data is reconstructed using a reduced number of dimensions. The plots below illustrate the PCA performance in two ways. The first shows the percentage of variation explained by each of the principal components, the first two combined explained over 90% of the variance. The second shows the mean squared reconstruction error, which decreases substantially with k additional principal components.
 
 ![Caption](Images/pca_scree.png)
 
@@ -75,4 +78,4 @@ We found that each data set could be explained using at most five principal comp
 ![AP GRF Stance fPCA Results](Images/pca_ap.png)
 
 # Conclusion
-
+Ultimately this work leads to better understanding of the data and the processes that generate it. (Add more)
