@@ -7,8 +7,6 @@ library(keras)
 #https://keras.rstudio.com/articles/sequential_model.html
 #https://machinelearningmastery.com/cnn-models-for-human-activity-recognition-time-series-classification/
 
-#github key
-#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
 
 #load data and rename columns for join
 cnn_vdf <- plot_V_GRF
